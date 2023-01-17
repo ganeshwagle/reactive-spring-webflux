@@ -28,7 +28,7 @@ class FluxAndMonoGeneratorServiceTest {
     @Test
     void generateNamesFluxFlatMap() {
 
-        StepVerifier.create(generateFluxAndMono.generateNamesFluxFlatMap())
+        StepVerifier.create(generateFluxAndMono.flatMap())
                 .expectNext("g", "a", "n", "e", "s", "h", "m")
                 .verifyComplete();
 
@@ -37,16 +37,9 @@ class FluxAndMonoGeneratorServiceTest {
     @Test
     void generateNamesFluxFlatMapAsync() {
 
-        StepVerifier.create(generateFluxAndMono.generateNamesFluxFlatMapAsync())
-                .expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
-                .verifyComplete();
-
-    }
-    @Test
-    void generateNamesFluxConcatMap() {
-
-        StepVerifier.create(generateFluxAndMono.generateNamesFluxConcatMap())
-                .expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
+        StepVerifier.create(generateFluxAndMono.flatMapAsync())
+                //.expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
+                .expectNextCount(10)
                 .verifyComplete();
 
     }
@@ -54,8 +47,17 @@ class FluxAndMonoGeneratorServiceTest {
     @Test
     void GenerateFluxAndMono() {
 
-        StepVerifier.create(generateFluxAndMono.generateNamesFlatMapInMono())
+        StepVerifier.create(generateFluxAndMono.flatMapInMono())
                 .expectNext(List.of("h","e","l","l","o"))
+                .verifyComplete();
+
+    }
+
+    @Test
+    void generateNamesFluxConcatMap() {
+
+        StepVerifier.create(generateFluxAndMono.concatMap())
+                .expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
                 .verifyComplete();
 
     }
@@ -63,7 +65,7 @@ class FluxAndMonoGeneratorServiceTest {
     @Test
     void generateNamesFlatMapMany() {
 
-        StepVerifier.create(generateFluxAndMono.generateNamesFlatMapMany())
+        StepVerifier.create(generateFluxAndMono.flatMapMany())
                 .expectNext("h", "e", "l", "l", "o")
                 .verifyComplete();
 

@@ -24,24 +24,26 @@ class GenerateFluxAndMono{
     Mono<String> generateNameMono(){
         return Mono.just("ganesh");
     }
-    Flux<String> generateNamesFluxFlatMap(){
+    Flux<String> flatMap(){
         return Flux.just("ganesh", "mahesh")
-                .flatMap(this::generateCharacterFluxFromName)
+                .flatMap(this::fluxFromName)
                 .distinct();
     }
 
-    Flux<String> generateCharacterFluxFromName(String name){
-        String[] chars = name.split("");
-        return Flux.fromArray(chars);
-    }
-
-    Flux<String> generateNamesFluxFlatMapAsync(){
+    Flux<String> flatMapAsync(){
         return Flux.just("hello", "world")
                 .flatMap(this::generateCharacterFluxFromNameWithDelay)
                 .log();
     }
 
-    Flux<String> generateNamesFluxConcatMap(){
+    Mono<List<String>> flatMapInMono(){
+        return Mono.just("hello")
+                .flatMap(this::generateMonoOfChars)
+                .log();
+    }
+
+
+    Flux<String> concatMap(){
         //same as flat map but it maintains the order
         //slower compare to flatmap
         return Flux.just("hello", "world")
@@ -49,15 +51,9 @@ class GenerateFluxAndMono{
                 .log();
     }
 
-    Mono<List<String>> generateNamesFlatMapInMono(){
+    Flux<String> flatMapMany(){
         return Mono.just("hello")
-                .flatMap(this::generateMonoOfChars)
-                .log();
-    }
-
-    Flux<String> generateNamesFlatMapMany(){
-        return Mono.just("hello")
-                .flatMapMany(this::generateCharacterFluxFromNameWithDelay)
+                .flatMapMany(this::fluxFromName)
                 .log();
     }
 
@@ -71,5 +67,10 @@ class GenerateFluxAndMono{
 
     Mono<List<String>> generateMonoOfChars(String name){
         return Mono.just(List.of(name.split("")));
+    }
+
+    Flux<String> fluxFromName(String name){
+        String[] chars = name.split("");
+        return Flux.fromArray(chars);
     }
 }
