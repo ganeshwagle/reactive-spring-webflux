@@ -68,26 +68,41 @@ class GenerateFluxAndMono {
                 .log();
     }
 
-    Flux<String> concat(){
-        Flux<String> abcFlux = Flux.just("a",  "b", "c");
-        Flux<String> defFlux = Flux.just("d",  "e", "f");
+    Flux<String> concat() {
+        Flux<String> abcFlux = Flux.just("a", "b", "c");
+        Flux<String> defFlux = Flux.just("d", "e", "f");
         //return Flux.concat(abcFlux, defFlux);//factory concat
         return abcFlux.concatWith(defFlux); //both works same
     }
-    Flux<String> merge(){
-        Flux<String> abcFlux = Flux.just("a",  "b", "c")
+
+    Flux<String> merge() {
+        Flux<String> abcFlux = Flux.just("a", "b", "c")
                 .delayElements(Duration.ofMillis(100));
-        Flux<String> defFlux = Flux.just("d",  "e", "f")
+        Flux<String> defFlux = Flux.just("d", "e", "f")
                 .delayElements(Duration.ofMillis(150));
-        //return Flux.merge(abcFlux, defFlux);//factory concat
+        //return Flux.merge(abcFlux, defFlux);
         return abcFlux.mergeWith(defFlux).log(); //both works same
     }
-    Flux<String> mergeSequential(){
-        Flux<String> abcFlux = Flux.just("a",  "b", "c")
+
+    Flux<String> mergeSequential() {
+        Flux<String> abcFlux = Flux.just("a", "b", "c")
                 .delayElements(Duration.ofMillis(100));
-        Flux<String> defFlux = Flux.just("d",  "e", "f")
+        Flux<String> defFlux = Flux.just("d", "e", "f")
                 .delayElements(Duration.ofMillis(150));
-        return Flux.mergeSequential(abcFlux, defFlux).log();//factory concat
+        return Flux.mergeSequential(abcFlux, defFlux).log();
+    }
+
+    Flux<String> zip() {
+        Flux<String> abcFlux = Flux.just("a", "b", "c","g","h")
+                .delayElements(Duration.ofMillis(100));
+        Flux<String> defFlux = Flux.just("d", "e", "f")
+                .delayElements(Duration.ofMillis(150));
+        /*return Flux.zip(abcFlux, defFlux)
+                .map(tuple -> tuple.getT1() + ":" + tuple.getT2())
+                .log();*/
+        return abcFlux.zipWith(defFlux)
+                .map(tuple -> tuple.getT1() + ":" + tuple.getT2())
+                .log();
     }
 
     Mono<List<String>> monFromName(String name) {
