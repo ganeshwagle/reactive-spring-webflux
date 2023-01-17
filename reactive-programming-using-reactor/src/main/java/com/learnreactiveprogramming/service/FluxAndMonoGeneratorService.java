@@ -74,6 +74,14 @@ class GenerateFluxAndMono {
         //return Flux.concat(abcFlux, defFlux);//factory concat
         return abcFlux.concatWith(defFlux); //both works same
     }
+    Flux<String> merge(){
+        Flux<String> abcFlux = Flux.just("a",  "b", "c")
+                .delayElements(Duration.ofMillis(100));
+        Flux<String> defFlux = Flux.just("d",  "e", "f")
+                .delayElements(Duration.ofMillis(150));
+        //return Flux.merge(abcFlux, defFlux);//factory concat
+        return abcFlux.mergeWith(defFlux).log(); //both works same
+    }
 
     Mono<List<String>> monFromName(String name) {
         return Mono.just(List.of(name.split("")));
