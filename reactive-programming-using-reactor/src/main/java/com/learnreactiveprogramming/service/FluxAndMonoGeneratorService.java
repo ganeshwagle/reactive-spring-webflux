@@ -97,12 +97,11 @@ class GenerateFluxAndMono {
                 .delayElements(Duration.ofMillis(100));
         Flux<String> defFlux = Flux.just("d", "e", "f")
                 .delayElements(Duration.ofMillis(150));
-        /*return Flux.zip(abcFlux, defFlux)
+        return Flux.zip(abcFlux, defFlux, (first, second) -> first + ":" + second)
+                .log();
+       /* return abcFlux.zipWith(defFlux)
                 .map(tuple -> tuple.getT1() + ":" + tuple.getT2())
                 .log();*/
-        return abcFlux.zipWith(defFlux)
-                .map(tuple -> tuple.getT1() + ":" + tuple.getT2())
-                .log();
     }
 
     Mono<List<String>> monFromName(String name) {
