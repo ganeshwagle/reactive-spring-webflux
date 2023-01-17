@@ -48,7 +48,7 @@ class FluxAndMonoGeneratorServiceTest {
     void flatMapInMono() {
 
         StepVerifier.create(generateFluxAndMono.flatMapInMono())
-                .expectNext(List.of("h","e","l","l","o"))
+                .expectNext(List.of("h", "e", "l", "l", "o"))
                 .verifyComplete();
 
     }
@@ -72,9 +72,16 @@ class FluxAndMonoGeneratorServiceTest {
     }
 
     @Test
-    void transform(){
+    void transform() {
         StepVerifier.create(generateFluxAndMono.transform())
-                .expectNext("5-HELLO","5-WORLD")
+                .expectNext("5-HELLO", "5-WORLD")
+                .verifyComplete();
+    }
+
+    @Test
+    void concat() {
+        StepVerifier.create(generateFluxAndMono.concat())
+                .expectNext("a", "b", "c", "d", "e", "f")
                 .verifyComplete();
     }
 }

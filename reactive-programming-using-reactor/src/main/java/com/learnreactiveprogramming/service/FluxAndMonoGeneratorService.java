@@ -16,35 +16,36 @@ public class FluxAndMonoGeneratorService {
     }
 }
 
-class GenerateFluxAndMono{
-    Flux<String> generateNamesFlux(){
+class GenerateFluxAndMono {
+    Flux<String> generateNamesFlux() {
         return Flux.just("ganesh", "mahesh", "rakesh", "rajesh");
         //return Flux.fromIterable(List.of("ganesh", "mahesh", "rakesh", "rajesh"));
     }
 
-    Mono<String> generateNameMono(){
+    Mono<String> generateNameMono() {
         return Mono.just("ganesh");
     }
-    Flux<String> flatMap(){
+
+    Flux<String> flatMap() {
         return Flux.just("ganesh", "mahesh")
                 .flatMap(this::fluxFromName)
                 .distinct();
     }
 
-    Flux<String> flatMapAsync(){
+    Flux<String> flatMapAsync() {
         return Flux.just("hello", "world")
                 .flatMap(this::fluxFromNameWithDelay)
                 .log();
     }
 
-    Mono<List<String>> flatMapInMono(){
+    Mono<List<String>> flatMapInMono() {
         return Mono.just("hello")
                 .flatMap(this::monFromName)
                 .log();
     }
 
 
-    Flux<String> concatMap(){
+    Flux<String> concatMap() {
         //same as flat map but it maintains the order
         //slower compare to flatmap
         return Flux.just("hello", "world")
@@ -52,32 +53,38 @@ class GenerateFluxAndMono{
                 .log();
     }
 
-    Flux<String> flatMapMany(){
+    Flux<String> flatMapMany() {
         return Mono.just("hello")
                 .flatMapMany(this::fluxFromName)
                 .log();
     }
 
-    Flux<String> transform(){
-        Function<Flux<String>,Flux<String>> fluxMonoFunction= name -> name
+    Flux<String> transform() {
+        Function<Flux<String>, Flux<String>> fluxMonoFunction = name -> name
                 .map(String::toUpperCase)
                 .map(s -> s.length() + "-" + s);
         return Flux.just("hello", "world")
                 .transform(fluxMonoFunction)
                 .log();
-
     }
 
-    Mono<List<String>> monFromName(String name){
+    Flux<String> concat(){
+        Flux<String> abcFlux = Flux.just("a",  "b", "c");
+        Flux<String> defFlux = Flux.just("d",  "e", "f");
+        //return Flux.concat(abcFlux, defFlux);//factory concat
+        return abcFlux.concatWith(defFlux); //both works same
+    }
+
+    Mono<List<String>> monFromName(String name) {
         return Mono.just(List.of(name.split("")));
     }
 
-    Flux<String> fluxFromName(String name){
+    Flux<String> fluxFromName(String name) {
         String[] chars = name.split("");
         return Flux.fromArray(chars);
     }
 
-    Flux<String> fluxFromNameWithDelay(String name){
+    Flux<String> fluxFromNameWithDelay(String name) {
         System.out.println(name);
         String[] chars = name.split("");
         return Flux.fromArray(chars)
