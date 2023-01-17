@@ -97,7 +97,7 @@ class GenerateFluxAndMono {
                 .delayElements(Duration.ofMillis(100));
         Flux<String> defFlux = Flux.just("d", "e", "f")
                 .delayElements(Duration.ofMillis(150));
-        return Flux.zip(abcFlux, defFlux, (first, second) -> first + ":" + second)
+        return Flux.zip(abcFlux, defFlux, (first, second) -> first + ":" + second)//(first, second) -> this can be used only with two flux
                 .log();
        /* return abcFlux.zipWith(defFlux)
                 .map(tuple -> tuple.getT1() + ":" + tuple.getT2())
