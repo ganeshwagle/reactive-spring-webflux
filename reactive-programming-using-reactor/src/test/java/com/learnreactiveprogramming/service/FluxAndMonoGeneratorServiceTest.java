@@ -59,4 +59,13 @@ class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
 
     }
+
+    @Test
+    void generateNamesFlatMapMany() {
+
+        StepVerifier.create(generateFluxAndMono.generateNamesFlatMapMany())
+                .expectNext("h", "e", "l", "l", "o")
+                .verifyComplete();
+
+    }
 }

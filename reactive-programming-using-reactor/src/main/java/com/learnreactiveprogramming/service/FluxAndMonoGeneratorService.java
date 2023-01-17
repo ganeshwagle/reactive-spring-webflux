@@ -55,6 +55,13 @@ class GenerateFluxAndMono{
                 .log();
     }
 
+    Flux<String> generateNamesFlatMapMany(){
+        return Mono.just("hello")
+                .flatMapMany(this::generateCharacterFluxFromNameWithDelay)
+                .log();
+    }
+
+
     Flux<String> generateCharacterFluxFromNameWithDelay(String name){
         System.out.println(name);
         String[] chars = name.split("");
