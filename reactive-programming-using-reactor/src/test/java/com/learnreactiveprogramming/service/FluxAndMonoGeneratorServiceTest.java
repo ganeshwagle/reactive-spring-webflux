@@ -26,7 +26,7 @@ class FluxAndMonoGeneratorServiceTest {
     }
 
     @Test
-    void generateNamesFluxFlatMap() {
+    void flatMap() {
 
         StepVerifier.create(generateFluxAndMono.flatMap())
                 .expectNext("g", "a", "n", "e", "s", "h", "m")
@@ -35,7 +35,7 @@ class FluxAndMonoGeneratorServiceTest {
     }
 
     @Test
-    void generateNamesFluxFlatMapAsync() {
+    void flatMapAsync() {
 
         StepVerifier.create(generateFluxAndMono.flatMapAsync())
                 //.expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
@@ -45,7 +45,7 @@ class FluxAndMonoGeneratorServiceTest {
     }
 
     @Test
-    void GenerateFluxAndMono() {
+    void flatMapInMono() {
 
         StepVerifier.create(generateFluxAndMono.flatMapInMono())
                 .expectNext(List.of("h","e","l","l","o"))
@@ -54,7 +54,7 @@ class FluxAndMonoGeneratorServiceTest {
     }
 
     @Test
-    void generateNamesFluxConcatMap() {
+    void concatMap() {
 
         StepVerifier.create(generateFluxAndMono.concatMap())
                 .expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
@@ -63,7 +63,7 @@ class FluxAndMonoGeneratorServiceTest {
     }
 
     @Test
-    void generateNamesFlatMapMany() {
+    void flatMapMany() {
 
         StepVerifier.create(generateFluxAndMono.flatMapMany())
                 .expectNext("h", "e", "l", "l", "o")
