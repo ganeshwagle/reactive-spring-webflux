@@ -41,10 +41,16 @@ class GenerateFluxAndMono{
                 .log();
     }
 
+    Flux<String> generateNamesFluxConcatMap(){
+        return Flux.just("hello", "world")
+                .concatMap(this::generateCharacterFluxFromNameWithDelay)
+                .log();
+    }
+
     Flux<String> generateCharacterFluxFromNameWithDelay(String name){
-        Random random = new Random();
+        System.out.println(name);
         String[] chars = name.split("");
         return Flux.fromArray(chars)
-                .delayElements(Duration.ofMillis(random.nextInt(3000)));
+                .delayElements(Duration.ofMillis(new Random().nextInt(3000)));
     }
 }

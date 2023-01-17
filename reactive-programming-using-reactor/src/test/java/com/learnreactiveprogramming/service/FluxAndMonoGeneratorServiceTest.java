@@ -40,4 +40,12 @@ class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
 
     }
+    @Test
+    void generateNamesFluxConcatMap() {
+
+        StepVerifier.create(generateFluxAndMono.generateNamesFluxConcatMap())
+                .expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
+                .verifyComplete();
+
+    }
 }
