@@ -42,8 +42,16 @@ class GenerateFluxAndMono{
     }
 
     Flux<String> generateNamesFluxConcatMap(){
+        //same as flat map but it maintains the order
+        //slower compare to flatmap
         return Flux.just("hello", "world")
                 .concatMap(this::generateCharacterFluxFromNameWithDelay)
+                .log();
+    }
+
+    Mono<List<String>> generateNamesFlatMapInMono(){
+        return Mono.just("hello")
+                .flatMap(this::generateMonoOfChars)
                 .log();
     }
 
@@ -52,5 +60,9 @@ class GenerateFluxAndMono{
         String[] chars = name.split("");
         return Flux.fromArray(chars)
                 .delayElements(Duration.ofMillis(new Random().nextInt(3000)));
+    }
+
+    Mono<List<String>> generateMonoOfChars(String name){
+        return Mono.just(List.of(name.split("")));
     }
 }
