@@ -31,4 +31,13 @@ class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
 
     }
+
+    @Test
+    void generateNamesFluxFlatMapAsync() {
+
+        StepVerifier.create(generateFluxAndMono.generateNamesFluxFlatMapAsync())
+                .expectNext("h", "e", "l", "l", "o", "w", "o", "r", "l", "d")
+                .verifyComplete();
+
+    }
 }
