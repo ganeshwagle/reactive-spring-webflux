@@ -3,11 +3,10 @@ package com.learnreactiveprogramming.service;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class FluxAndMonoGeneratorServiceTest {
 
     GenerateFluxAndMono generateFluxAndMono = new GenerateFluxAndMono();
+
     @Test
     void fluxTest() {
         StepVerifier.create(generateFluxAndMono.generateNamesFlux())
@@ -22,5 +21,14 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("ganesh")
                 .expectNextCount(3)
                 .verifyComplete();*/
+    }
+
+    @Test
+    void generateNamesFluxFlatMap() {
+
+        StepVerifier.create(generateFluxAndMono.generateNamesFluxFlatMap())
+                .expectNext("g", "a", "n", "e", "s", "h", "m")
+                .verifyComplete();
+
     }
 }

@@ -22,4 +22,14 @@ class GenerateFluxAndMono{
     Mono<String> generateNameMono(){
         return Mono.just("ganesh");
     }
+    Flux<String> generateNamesFluxFlatMap(){
+        return Flux.just("ganesh", "mahesh")
+                .flatMap(this::generateCharacterFluxFromName)
+                .distinct();
+    }
+
+    Flux<String> generateCharacterFluxFromName(String name){
+        String[] chars = name.split("");
+        return Flux.fromArray(chars);
+    }
 }
