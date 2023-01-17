@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 public class FluxAndMonoGeneratorService {
     public static void main(String[] args) {
@@ -55,6 +56,16 @@ class GenerateFluxAndMono{
         return Mono.just("hello")
                 .flatMapMany(this::fluxFromName)
                 .log();
+    }
+
+    Flux<String> transform(){
+        Function<Flux<String>,Flux<String>> fluxMonoFunction= name -> name
+                .map(String::toUpperCase)
+                .map(s -> s.length() + "-" + s);
+        return Flux.just("hello", "world")
+                .transform(fluxMonoFunction)
+                .log();
+
     }
 
     Mono<List<String>> monFromName(String name){

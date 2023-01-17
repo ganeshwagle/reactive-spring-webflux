@@ -70,4 +70,11 @@ class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
 
     }
+
+    @Test
+    void transform(){
+        StepVerifier.create(generateFluxAndMono.transform())
+                .expectNext("5-HELLO","5-WORLD")
+                .verifyComplete();
+    }
 }
